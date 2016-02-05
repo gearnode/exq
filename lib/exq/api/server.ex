@@ -105,33 +105,33 @@ defmodule Exq.Api.Server do
   end
 
   def handle_call({:remove_queue, queue}, _from, state) do
-    JobStat.remove_queue(state, queue)
-    {:reply, {:ok}, state, 0}
+    JobStat.remove_queue(state.redis, state.namespace, queue)
+    {:reply, :ok, state, 0}
   end
 
   def handle_call({:remove_failed, jid}, _from, state) do
     JobStat.remove_failed(state.redis, state.namespace, jid)
-    {:reply, {:ok}, state, 0}
+    {:reply, :ok, state, 0}
   end
 
   def handle_call(:clear_failed, _from, state) do
     JobStat.clear_failed(state.redis, state.namespace)
-    {:reply, {:ok}, state, 0}
+    {:reply, :ok, state, 0}
   end
 
   def handle_call(:clear_processes, _from, state) do
     JobStat.clear_processes(state.redis, state.namespace)
-    {:reply, {:ok}, state, 0}
+    {:reply, :ok, state, 0}
   end
 
   def handle_call(:clear_scheduled, _from, state) do
     delete_queue(state, "schedule")
-    {:reply, {:ok}, state, 0}
+    {:reply, :ok, state, 0}
   end
 
   def handle_call(:clear_retries, _from, state) do
     delete_queue(state, "retry")
-    {:reply, {:ok}, state, 0}
+    {:reply, :ok, state, 0}
   end
 
   def handle_call(:realtime_stats, _from, state) do
