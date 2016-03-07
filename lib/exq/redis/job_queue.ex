@@ -223,7 +223,7 @@ defmodule Exq.Redis.JobQueue do
   end
 
   def time_to_score(time) do
-    Float.to_string(time |> Time.to_secs, [decimals: 6])
+    Float.to_string(time |> Time.to_seconds, [decimals: 6])
   end
 
   def retry_or_fail_job(redis, namespace, %{retry: true} = job, error) do
